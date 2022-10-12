@@ -40,6 +40,12 @@ echo 'buildpack=nginx at=logs-initialized'
   echo 'buildpack=nginx at=app-initialized'
 )
 
+# Diagnostic
+pwd
+ls -ali
+which nginx
+ls conf
+
 # Start nginx
 (
   # We expect nginx to run in foreground.
