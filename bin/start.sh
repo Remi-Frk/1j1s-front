@@ -40,18 +40,29 @@ echo 'buildpack=nginx at=logs-initialized'
   echo 'buildpack=nginx at=app-initialized'
 )
 
+
 # Diagnostic
 pwd
 ls -ali
 which nginx
-ls conf
+
+echo "Contenu de conf, avant :"
+ls vendor/nginx/conf/
+
+erb "servers.conf.erb" > "vendor/nginx/conf/servers.conf"
+
+echo "Contenu de conf, après erb :"
+ls vendor/nginx/conf/
+
+echo "Contenu du fichier :"
+cat vendor/nginx/conf/servers.conf
 
 # Start nginx
 (
   # We expect nginx to run in foreground.
   # We also expect a socket to be at /tmp/nginx.socket.
   echo 'buildpack=nginx at=nginx-start'
-  nginx -p . -c "conf/servers.conf"
+  nginx -p vendor/nginx -c "conf/servers.conf"
   echo 'nginx' >$psmgr
 ) &
 
